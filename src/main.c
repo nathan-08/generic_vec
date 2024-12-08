@@ -3,7 +3,6 @@
 #include <time.h>
 #include "vec.h"
 
-
 void example_1(void);
 void example_2(void);
 
@@ -40,7 +39,7 @@ void example_2(void) {
 	uvec_push(v, (User){ 300, "Alice" });
 
 	for (int i = 0; i < uvec_count(v); ++i)
-		printf("User's name: %s\n", uvec_get(v, i).name);
+		printf("User's name: %s\n", uvec_get(v, (size_t) i).name);
 
 	uvec_free(&v);
 }

@@ -6,8 +6,16 @@
 #include <assert.h>
 #include <string.h> // memcpy
 
-#define CAP_INIT 0x20
+#define CAP_INIT 0x20 // initial vector capacity
 
+/* DECLARE_VEC: `tag` is used to form the name of the vector type 
+ * 				to be created. `T` is the type of the items
+ * 				to be contained in the vector. 
+ * 				For instance, after calling DECLARE_VEC(fvec, float),
+ * 				the user will have access to the type fvec_t, a
+ * 				pointer to a vector of floats. 
+ * 				Then one can write `fvec_t my_vector = fvec_new();`
+ */
 #define DECLARE_VEC(tag, T) \
 	struct tag { \
 		size_t nitems, cap; \
