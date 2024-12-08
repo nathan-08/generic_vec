@@ -1,2 +1,3 @@
+src/main
 obj
 valgrind_out.txt
