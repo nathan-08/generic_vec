@@ -5,6 +5,7 @@
 #include <stdlib.h>
 #include <assert.h>
 #include <string.h> // memcpy
+#include <sys/param.h> // MAX
 
 #define CAP_INIT 0x20 // initial vector capacity
 
@@ -33,6 +34,18 @@
 		return ptr; \
 	} \
 	\
+	/* <tag>_from_array: Creates a new vector from an array of items. */ \
+	\
+	tag ## _t tag ## _from_array (T *arr, size_t nitems) { \
+		size_t cap = MAX((size_t) CAP_INIT, nitems); \
+		tag ## _t ptr = malloc(sizeof(struct tag)); \
+		ptr->nitems = nitems; \
+		ptr->cap    = cap; \
+		ptr->data   = calloc(cap, sizeof(T)); \
+		memcpy(ptr->data, arr, nitems * sizeof(T)); \
+		return ptr; \
+	} \
+	\
 	/* <tag>_push: Adds an item to the end of the vector. */ \
 	\
 	void tag ## _push(tag ## _t vec, T item) { \
@@ -57,6 +70,7 @@
 	 * 				*/ \
 	\
 	void tag ## _free(tag ## _t * vec_ptr) { \
+		assert(*vec_ptr); \
 		free ((*vec_ptr)->data); \
 		free (*vec_ptr); \
 		*vec_ptr = NULL; \
@@ -66,6 +80,7 @@
 	 * 				in the vector */ \
 	\
 	size_t tag ## _count(tag ##_t vec) { \
+		assert(vec); \
 		return vec->nitems; \
 	} \
 	\
@@ -83,6 +98,13 @@
 		assert(vec); \
 		assert(vec->nitems > 0); \
 		--vec->nitems; \
+	} \
+	\
+	/* <tag>_clear: Resets the vector to empty */ \
+	\
+	void tag ## _clear (tag ## _t vec) { \
+		assert(vec); \
+		vec->nitems = 0; \
 	} \
 
 
