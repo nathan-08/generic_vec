@@ -53,7 +53,7 @@
 		if (vec->nitems == vec->cap) { \
 			size_t new_cap = 2 * vec->cap; \
 			T *new_data = calloc(new_cap, sizeof(T)); \
-			memcpy(new_data, vec->data, vec->nitems); \
+			memcpy(new_data, vec->data, sizeof(T)*vec->nitems); \
 			free(vec->data); \
 			vec->data = new_data; \
 			vec->cap = new_cap; \

@@ -4,6 +4,7 @@
 #include "vec.h"
 
 #define ARR_LEN(a) sizeof(a)/sizeof(a[0])
+#define RAND_FLOAT(a,b) a+(b-a)*((float) rand() / (float) RAND_MAX)
 
 void example_1(void);
 void example_2(void);
@@ -20,13 +21,16 @@ void example_1(void) {
 	srand(time(NULL));
 	DECLARE_VEC(fvec, float);
 	fvec_t v = fvec_new();
-	for (int i = 1; i <= 1000; i++) {
-		fvec_push(v, (float) rand() / (float) RAND_MAX);
+
+	for (int i = 0; i < 0x1000; ++i) {
+		fvec_push(v, RAND_FLOAT(-1.f, 1.f));
 	}
+
 	printf("nitems: %ld\n", fvec_count(v));
-	for (size_t i = 0; i < 5; i++) {
+	for (size_t i = 32; i < 37; i++) {
 		printf("%f\n", fvec_get(v, i));
 	}
+
 	fvec_free(&v);
 }
 
