@@ -3,12 +3,16 @@
 #include <time.h>
 #include "vec.h"
 
+#define ARR_LEN(a) sizeof(a)/sizeof(a[0])
+
 void example_1(void);
 void example_2(void);
+void example_3(void);
 
 int main (int argc, char* argv[]) {
-	example_1();
-	example_2();
+	example_1(); // creates a large array of floats
+	example_2(); // creates an array of user defined structs
+	example_3(); // uses the _from_array functionality
 	return 0;
 }
 
@@ -16,7 +20,7 @@ void example_1(void) {
 	srand(time(NULL));
 	DECLARE_VEC(fvec, float);
 	fvec_t v = fvec_new();
-	for (int i = 1; i <= 100; i++) {
+	for (int i = 1; i <= 1000; i++) {
 		fvec_push(v, (float) rand() / (float) RAND_MAX);
 	}
 	printf("nitems: %ld\n", fvec_count(v));
@@ -42,4 +46,17 @@ void example_2(void) {
 		printf("User's name: %s\n", uvec_get(v, (size_t) i).name);
 
 	uvec_free(&v);
+}
+
+void example_3(void) {
+	DECLARE_VEC(ivec, int);
+
+	int ns[] = { 32, 17, 5, 286, 114, 0, 2, 7 };
+	ivec_t v = ivec_from_array(ns, ARR_LEN(ns));
+
+	for (int i = 0; i < ivec_count(v); ++i)
+		printf("%d\n", ivec_get(v, (size_t) i));
+
+
+	ivec_free(&v);
 }
