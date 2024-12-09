@@ -114,7 +114,22 @@
 		for (size_t i = 0; i < vec->nitems; ++i) { \
 			func( &vec->data[i] ); \
 		} \
-	}
-
+	} \
+	\
+	/* <tag>_reduce: Applies the reducer function to each element
+	 * 				 of the vector, returning the final value of the accumulator.
+	 * 				 For instance, may be used to sum a vector of integers. 
+	 * 				 Similar to JavaScript's reduce method, and the various
+	 * 				 fold functions of FP languages. 
+	 * 				 */ \
+	\
+	T tag ## _reduce(tag ## _t v, T (*reducer)(T acc, T cur_val), T initial_val) { \
+		assert(v); \
+		T accumulator = initial_val; \
+		for (size_t i=0; i < v->nitems; ++i) { \
+			accumulator = reducer(accumulator, v->data[i]); \
+		} \
+		return accumulator; \
+	} \
 
 #endif

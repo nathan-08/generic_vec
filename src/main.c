@@ -14,7 +14,7 @@ int main (int argc, char* argv[]) {
 	example_1(); // creates a large array of floats
 	example_2(); // creates an array of user defined structs
 				 // and demonstrates the _for_each functionality
-	example_3(); // uses the _from_array functionality
+	example_3(); // demonstrates the vec_from_array and vec_reduce functionality
 	return 0;
 }
 
@@ -54,21 +54,23 @@ void example_2(void) {
 	uvec_free(&v);
 }
 
+int sum(int a, int b);
+
 void example_3(void) {
 	DECLARE_VEC(ivec, int);
 
 	int ns[0x100] = { 32, 17, 5, 286, 114, 0, 2, 7 };
 	ivec_t v = ivec_from_array(ns, ARR_LEN(ns));
 
-	printf("nitems: %ld\n", ivec_count(v));
-	printf("arrlen: %ld\n",   ARR_LEN(ns));
+	printf("Sum: %d\n", ivec_reduce(v, &sum, 0));
 
-	for (size_t i = 0; i < 5; ++i)
-		printf("%d\n", ivec_get(v, i));
 
 	ivec_free(&v);
 }
 
 void print_user(User *user) {
 	printf("User's name: %s\n", user->name);
+}
+int sum(int a, int b) {
+	return a + b;
 }
