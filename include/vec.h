@@ -106,6 +106,15 @@
 		assert(vec); \
 		vec->nitems = 0; \
 	} \
+	\
+	/* <tag>_for_each: Applies func to each element of the vector */ \
+	\
+	void tag ## _for_each(tag ## _t vec, void (*func)(T*) ) { \
+		assert(vec); \
+		for (size_t i = 0; i < vec->nitems; ++i) { \
+			func( &vec->data[i] ); \
+		} \
+	}
 
 
 #endif

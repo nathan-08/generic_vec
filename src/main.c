@@ -13,6 +13,7 @@ void example_3(void);
 int main (int argc, char* argv[]) {
 	example_1(); // creates a large array of floats
 	example_2(); // creates an array of user defined structs
+				 // and demonstrates the _for_each functionality
 	example_3(); // uses the _from_array functionality
 	return 0;
 }
@@ -34,20 +35,21 @@ void example_1(void) {
 	fvec_free(&v);
 }
 
-void example_2(void) {
-	typedef struct {
-		unsigned int id;
-		char name[100];
-	} User;
+typedef struct {
+	unsigned int id;
+	char name[100];
+} User;
 
+void print_user(User *user);
+
+void example_2(void) {
 	DECLARE_VEC(uvec, User);
 
 	uvec_t v = uvec_new();
 	uvec_push(v, (User){ 125, "Bob" });
 	uvec_push(v, (User){ 300, "Alice" });
 
-	for (size_t i = 0; i < uvec_count(v); ++i)
-		printf("User's name: %s\n", uvec_get(v, i).name);
+	uvec_for_each(v, &print_user);
 
 	uvec_free(&v);
 }
@@ -65,4 +67,8 @@ void example_3(void) {
 		printf("%d\n", ivec_get(v, i));
 
 	ivec_free(&v);
+}
+
+void print_user(User *user) {
+	printf("User's name: %s\n", user->name);
 }
