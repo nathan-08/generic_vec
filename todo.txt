@@ -4,8 +4,10 @@ to avoid unnecessary copying. E.g.:
 /* accumulator should contain the initial value when the vec_reduce is called.
 *  After the function call, accumulator contains the final value. 
 */
-void vec_reduce(vec_t v, T (*reducer)(T *const acc, T *const curval), T *accumulator) {
+void vec_reduce(vec_t v, T (*reducer)(const T *acc, const T *curval), T *accumulator) {
 	assert(v);
+	assert(accumulator);
+
 	for (size_t i=0; i < v->nitems; ++i) {
 		*accumulator = reducer(accumulator, &v->data[i]);
 	}
