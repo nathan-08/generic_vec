@@ -51,12 +51,14 @@ void example_2(void) {
 void example_3(void) {
 	DECLARE_VEC(ivec, int);
 
-	int ns[] = { 32, 17, 5, 286, 114, 0, 2, 7 };
+	int ns[0x100] = { 32, 17, 5, 286, 114, 0, 2, 7 };
 	ivec_t v = ivec_from_array(ns, ARR_LEN(ns));
 
-	for (size_t i = 0; i < ivec_count(v); ++i)
-		printf("%d\n", ivec_get(v, i));
+	printf("nitems: %ld\n", ivec_count(v));
+	printf("arrlen: %ld\n",   ARR_LEN(ns));
 
+	for (size_t i = 0; i < 5; ++i)
+		printf("%d\n", ivec_get(v, i));
 
 	ivec_free(&v);
 }
